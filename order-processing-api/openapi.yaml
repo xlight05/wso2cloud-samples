@@ -1,0 +1,43 @@
+openapi: 3.0.3
+info:
+  title: Order Processing API
+  version: v1.0
+  description: Accepts orders and returns the status of an order.
+servers:
+  - url: https://httpbin.org/anything
+paths:
+  /:
+    post:
+      summary: Create an order
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Order'
+      responses:
+        '200':
+          description: The order was accepted.
+  /{orderId}:
+    get:
+      summary: Get the status of an order
+      parameters:
+        - name: orderId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: The status of the order.
+components:
+  schemas:
+    Order:
+      type: object
+      required: [item, quantity]
+      properties:
+        item:
+          type: string
+        quantity:
+          type: integer
+          minimum: 1
